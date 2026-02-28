@@ -133,7 +133,7 @@ class CardioInput(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"message": "CardioFlux API is running"}
+    return {"message": "Heart Risk Predictor API is running"}
 
 @app.get("/insights")
 async def get_insights():
