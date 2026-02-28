@@ -10,7 +10,7 @@ const Footer = () => {
                     <div className="col-span-1 md:col-span-1">
                         <div className="flex items-center gap-2 mb-4">
                             <div className="w-12 h-12">
-                                <img src="/logo.png" alt="CardioFlux Logo" className="w-full h-full object-contain" />
+                                <img src="/logo.png" alt="Heart Risk Predictor Logo" className="w-full h-full object-contain" />
                             </div>
                             <span className="text-xl font-bold text-slate-900">Heart Risk Predictor</span>
                         </div>
