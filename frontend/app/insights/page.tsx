@@ -42,7 +42,8 @@ export default function InsightsPage() {
   useEffect(() => {
     const fetchInsights = async () => {
       try {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/insights`;
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+        const url = `${baseUrl}/insights`;
         setDebugUrl(url);
         const response = await fetch(url);
 
@@ -216,8 +217,8 @@ export default function InsightsPage() {
                     <div className="flex items-center gap-3">
                       <span
                         className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0
-                            ? "bg-amber-100 text-amber-600"
-                            : "bg-slate-100 text-slate-500"
+                          ? "bg-amber-100 text-amber-600"
+                          : "bg-slate-100 text-slate-500"
                           }`}
                       >
                         {index + 1}
@@ -237,8 +238,8 @@ export default function InsightsPage() {
                   <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-1000 ease-out ${index === 0
-                          ? "bg-gradient-to-r from-indigo-500 to-indigo-400"
-                          : "bg-slate-300"
+                        ? "bg-gradient-to-r from-indigo-500 to-indigo-400"
+                        : "bg-slate-300"
                         }`}
                       style={{ width: `${model.accuracy * 100}%` }}
                     />
