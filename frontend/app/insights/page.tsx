@@ -37,16 +37,17 @@ export default function InsightsPage() {
   const [stats, setStats] = useState<DataStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [debugUrl, setDebugUrl] = useState<string>("");
 
   useEffect(() => {
     const fetchInsights = async () => {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/insights`
-        );
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/insights`;
+        setDebugUrl(url);
+        const response = await fetch(url);
 
         if (!response.ok) {
-          throw new Error("Failed to fetch insights");
+          throw new Error(`Failed to fetch insights (Status: ${response.status})`);
         }
         const data = await response.json();
         setStats(data);
@@ -82,10 +83,16 @@ export default function InsightsPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Unavailable
           </h2>
-          <p className="text-slate-500 mb-8 leading-relaxed">
+          <p className="text-slate-500 mb-4 leading-relaxed">
             We couldn't load the dataset statistics. The analysis service might
             be offline.
           </p>
+          <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 mb-8 overflow-hidden">
+            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1 text-left">Attempted Connection:</p>
+            <p className="text-xs font-mono text-slate-600 break-all text-left">
+              {debugUrl || "NEXT_PUBLIC_API_URL is undefined"}
+            </p>
+          </div>
           <button
             onClick={() => window.location.reload()}
             className="w-full py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition active:scale-[0.98]"
@@ -208,18 +215,16 @@ export default function InsightsPage() {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
                       <span
-                        className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${
-                          index === 0
+                        className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0
                             ? "bg-amber-100 text-amber-600"
                             : "bg-slate-100 text-slate-500"
-                        }`}
+                          }`}
                       >
                         {index + 1}
                       </span>
                       <span
-                        className={`font-semibold ${
-                          index === 0 ? "text-slate-900" : "text-slate-600"
-                        }`}
+                        className={`font-semibold ${index === 0 ? "text-slate-900" : "text-slate-600"
+                          }`}
                       >
                         {model.name}
                       </span>
@@ -231,11 +236,10 @@ export default function InsightsPage() {
 
                   <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-1000 ease-out ${
-                        index === 0
+                      className={`h-full rounded-full transition-all duration-1000 ease-out ${index === 0
                           ? "bg-gradient-to-r from-indigo-500 to-indigo-400"
                           : "bg-slate-300"
-                      }`}
+                        }`}
                       style={{ width: `${model.accuracy * 100}%` }}
                     />
                   </div>
@@ -298,9 +302,8 @@ export default function InsightsPage() {
             <div key={index} className="group">
               <div className="flex justify-between items-center mb-2">
                 <span
-                  className={`text-sm font-bold ${
-                    feature.value > 15 ? "text-slate-900" : "text-slate-500"
-                  }`}
+                  className={`text-sm font-bold ${feature.value > 15 ? "text-slate-900" : "text-slate-500"
+                    }`}
                 >
                   {feature.label}
                 </span>
