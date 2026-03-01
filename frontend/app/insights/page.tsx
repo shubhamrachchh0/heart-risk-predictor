@@ -42,7 +42,7 @@ export default function InsightsPage() {
   useEffect(() => {
     const fetchInsights = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+        const baseUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
         const url = `${baseUrl}/insights`;
         setDebugUrl(url);
         const response = await fetch(url);

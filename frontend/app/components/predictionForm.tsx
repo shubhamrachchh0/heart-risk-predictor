@@ -56,29 +56,27 @@ export default function PredictionForm() {
           formData.cholesterol === "normal"
             ? 1
             : formData.cholesterol === "above"
-            ? 2
-            : 3,
+              ? 2
+              : 3,
         gluc:
           formData.glucose === "normal"
             ? 1
             : formData.glucose === "above"
-            ? 2
-            : 3,
+              ? 2
+              : 3,
         smoke: formData.smoke ? 1 : 0,
         alco: formData.alcohol ? 1 : 0,
         active: formData.active ? 1 : 0,
       };
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/predict`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
+      const response = await fetch(`${apiUrl}/predict`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (!response.ok) {
         const errData = await response.json();
@@ -349,7 +347,7 @@ export default function PredictionForm() {
                       className={`relative w-12 h-7 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
                         // @ts-ignore
                         formData[item.name] ? "bg-indigo-600" : "bg-slate-300"
-                      }`}
+                        }`}
                     >
                       <span
                         className={`absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-all duration-300 shadow-sm ${
@@ -357,7 +355,7 @@ export default function PredictionForm() {
                           formData[item.name]
                             ? "translate-x-5"
                             : "translate-x-0"
-                        }`}
+                          }`}
                       />
                     </button>
                   </div>
@@ -416,11 +414,10 @@ export default function PredictionForm() {
           ) : (
             <div className="bg-white rounded-3xl overflow-hidden shadow-2xl shadow-slate-200/50 border border-slate-100 animation-fade-in">
               <div
-                className={`p-8 ${
-                  result.risk === "High"
-                    ? "bg-gradient-to-br from-red-500 to-rose-600"
-                    : "bg-gradient-to-br from-emerald-500 to-teal-600"
-                } text-white relative overflow-hidden`}
+                className={`p-8 ${result.risk === "High"
+                  ? "bg-gradient-to-br from-red-500 to-rose-600"
+                  : "bg-gradient-to-br from-emerald-500 to-teal-600"
+                  } text-white relative overflow-hidden`}
               >
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2" />
 
@@ -454,28 +451,25 @@ export default function PredictionForm() {
                 </div>
 
                 <div
-                  className={`p-5 rounded-xl border ${
-                    result.risk === "High"
-                      ? "bg-red-50 border-red-100"
-                      : "bg-emerald-50 border-emerald-100"
-                  }`}
+                  className={`p-5 rounded-xl border ${result.risk === "High"
+                    ? "bg-red-50 border-red-100"
+                    : "bg-emerald-50 border-emerald-100"
+                    }`}
                 >
                   <h4
-                    className={`font-bold text-sm mb-1 ${
-                      result.risk === "High"
-                        ? "text-red-700"
-                        : "text-emerald-700"
-                    }`}
+                    className={`font-bold text-sm mb-1 ${result.risk === "High"
+                      ? "text-red-700"
+                      : "text-emerald-700"
+                      }`}
                   >
                     {" "}
                     Recommendation
                   </h4>
                   <p
-                    className={`text-sm ${
-                      result.risk === "High"
-                        ? "text-red-600"
-                        : "text-emerald-600"
-                    }`}
+                    className={`text-sm ${result.risk === "High"
+                      ? "text-red-600"
+                      : "text-emerald-600"
+                      }`}
                   >
                     {result.risk === "High"
                       ? "Consult a healthcare professional for a detailed evaluation."
